@@ -1,10 +1,10 @@
-import Navbar from './Components/Navbar';
+import Inicio from './Pages/Inicio';
 
 function App() {
 
   return (
     <div>
-      <Navbar/>
+      <Inicio/>
     </div>
   )
 }

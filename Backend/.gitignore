@@ -1,5 +1,32 @@
-# Ignorar el archivo .env
+# Entorno virtual
+venv/
+
+# Archivos de entorno
 .env
 
-# Ignorar el archivo requirements.txt
+# Archivos de dependencia
 requirements.txt
+
+# Archivos de configuración de IDEs (ejemplo: VSCode, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Archivos generados por Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Archivos de bases de datos SQLite (si los usas para pruebas locales)
+*.sqlite3
+
+# Archivos de logs
+*.log
+
+# Archivos de compilación
+*.egg-info/
+build/
+dist/
+
+# Archivos temporales del sistema operativo
+.DS_Store
+Thumbs.db

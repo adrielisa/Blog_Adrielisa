@@ -17,6 +17,12 @@ class PostResponse(PostBase):
     class Config:
         orm_mode = True
 
+class PostList(BaseModel):
+    posts: List[PostResponse]
+
+    class Config:
+        orm_mode = True
+
 class UserBase(BaseModel):
     username: str
     email: str
@@ -33,5 +39,21 @@ class UserResponse(UserBase):
     class Config:
         orm_mode = True
 
+#El esquema base, todo esquema que le sigue, toda opinión debe tener como base un content que será string 
+class OpinionBase(BaseModel):
+    content: str
+    
+class OpinionCreate(OpinionBase):
+    post_id: int
+    user_id: int
+
+class OpinionResponse(OpinionBase):
+    id: int
+    created_at: str
+    post_id: int
+    user_id: int
+    
+    class Config:
+        orm_mode: True
 
     

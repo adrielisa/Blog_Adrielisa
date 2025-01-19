@@ -19,7 +19,6 @@ class PostResponse(PostBase):
 
 class PostList(BaseModel):
     posts: List[PostResponse]
-
     class Config:
         orm_mode = True
 

@@ -25,27 +25,27 @@ class Post(Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(255), nullable=False )
+    title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
     category = Column(String(50), nullable=True)
-    created_at = Column(TIMESTAMP, server_default=func.now)
+    created_at = Column(TIMESTAMP, server_default=func.now())
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-    
-    #Relación con el modelo user
+
+    # Relación con el modelo user
     owner = relationship("User", back_populates="posts")
-    opinions = relationship("Opinion", back_populates="posts")
+    opinions = relationship("Opinion", back_populates="post")  # Cambiar "posts" por "post"
+
     
 #Modelo para la tabla opinions
 class Opinion(Base):
     __tablename__ = "opinions"
-    
+
     id = Column(Integer, primary_key=True)
     content = Column(Text, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"))
     post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP, server_default=func.now())
-    
-    #Relación con los modelos User y Post
+
+    # Relación con los modelos User y Post
     user = relationship("User", back_populates="opinions")
-    post = relationship("Post", back_populates="opinions")
-    
+    post = relationship("Post", back_populates="opinions")  # Cambiar "posts" por "opinions"

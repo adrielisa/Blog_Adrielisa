@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, List
+from datetime import datetime
 
 class PostBase(BaseModel):
     tittle: str
@@ -11,16 +12,18 @@ class PostCreate(PostBase):
 
 class PostResponse(PostBase):
     id: int
-    created_at: str
+    created_at: datetime
     user_id: int
     
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 class PostList(BaseModel):
     posts: List[PostResponse]
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 class UserBase(BaseModel):
     username: str
@@ -33,10 +36,11 @@ class UserResponse(UserBase):
     id: int
     role: str
     profile_picture: Optional[str]
-    created_at: str
+    created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 #El esquema base, todo esquema que le sigue, toda opinión debe tener como base un content que será string 
 class OpinionBase(BaseModel):
@@ -48,7 +52,7 @@ class OpinionCreate(OpinionBase):
 
 class OpinionResponse(OpinionBase):
     id: int
-    created_at: str
+    created_at: datetime
     post_id: int
     user_id: int
     

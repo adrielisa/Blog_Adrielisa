@@ -4,7 +4,7 @@ from app.routers import users, posts, comments
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 #Routes included
 app.include_router(users.router)

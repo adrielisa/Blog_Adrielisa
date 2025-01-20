@@ -27,7 +27,7 @@ export default function Form() {
             };
 
             // Llamada al endpoint del backend
-            const response = await axios.post("http://127.0.0.1:8000/auth/register", payload);
+            const response = await axios.post("http://127.0.0.1:8000/users/", payload);
 
             // Mostrar mensaje de éxito
             alert("Usuario registrado con éxito!");

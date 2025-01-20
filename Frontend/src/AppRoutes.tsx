@@ -1,12 +1,13 @@
-import { Navigate, RouteObject } from "react-router-dom"
+import { RouteObject } from "react-router-dom"
 import Login from './Pages/auth/login';
 import Register from './Pages/auth/register';
+import Inicio from "./Pages/Inicio";
 
 const appRoutes: RouteObject[] = [
 
   {
     path: '/',
-    element: <Navigate to="/login" replace />
+    element: <Inicio />
   },
   {
     path: '/login',

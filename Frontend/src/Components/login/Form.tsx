@@ -27,10 +27,9 @@ export default function Form() {
 
             // Guardar el token en el almacenamiento local
             localStorage.setItem("accessToken", response.data.access_token);
-            localStorage.setItem("user", JSON.stringify(response.data.user));
 
-            // Redirigir al dashboard
-            navigate("/dashboard");
+            // Redirigir a la página de inicio
+            navigate("/");
         } catch (error) {
             alert("Error al iniciar sesión, inténtalo de nuevo");
         } finally {
@@ -66,7 +65,7 @@ export default function Form() {
                             </div>
                             <div className="relative w-full max-w-xs">
                                 <input
-                                    type={isPasswordVisible ? 'text' : 'password'}
+                                    type={isPasswordVisible ? "text" : "password"}
                                     value={password}
                                     required
                                     onChange={(e) => setPassword(e.target.value)}
@@ -74,13 +73,13 @@ export default function Form() {
                                     className="mt-1 block w-full pl-10 border border-gray-300 placeholder: font-light text-sm rounded-lg shadow-sm p-2"
                                 />
                                 <FiLock className="absolute left-3 top-3 text-[var(--primary-color)] h-5 w-5" />
-                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                                        {isPasswordVisible ? (
-                                            <FiEyeOff onClick={togglePasswordVisibility} className="text-gray-400 h-5 w-5" />
-                                        ) : (
-                                            <FiEye onClick={togglePasswordVisibility} className="text-gray-400 h-5 w-5" />
-                                        )}
-                                    </div>
+                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                                    {isPasswordVisible ? (
+                                        <FiEyeOff onClick={togglePasswordVisibility} className="text-gray-400 h-5 w-5" />
+                                    ) : (
+                                        <FiEye onClick={togglePasswordVisibility} className="text-gray-400 h-5 w-5" />
+                                    )}
+                                </div>
                             </div>
                             <div className="relative w-full max-w-xs flex justify-end">
                                 <a href="/forget_pass" className="text-blue-800 text-sm mb-5 underline">¿Olvidaste tu contraseña?</a>

@@ -1,7 +1,10 @@
+
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from app.config import settings
+import jwt
+from fastapi import HTTPException
 
 #Crear un contexto de hash para las contraseñas
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -29,3 +32,21 @@ def verify_access_token(token:str) -> dict:
         return payload
     except JWTError:
         return None
+    
+def create_refresh_token(data: dict) -> str:
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+def verify_refresh_token(token:str) -> dict:
+    """ 
+    Verifica y decodifica el refresh token
+    """
+    try: 
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="El token ha expirado")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Token inválido")

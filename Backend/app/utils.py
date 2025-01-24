@@ -4,7 +4,12 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from app.config import settings
 import jwt
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.orm import Session
+from app.models import User
+from app.database import get_db
+
 
 #Crear un contexto de hash para las contraseñas
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -50,3 +55,29 @@ def verify_refresh_token(token:str) -> dict:
         raise HTTPException(status_code=401, detail="El token ha expirado")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Token inválido")
+    
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
+    
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="No se pudo validar las credenciales",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    
+    try:
+        #Decodifica el jwt
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        user_email: str = payload.get("sub")    
+        if user_email is None:
+            raise credentials_exception
+    except JWTError: 
+        raise credentials_exception
+    
+    #Busca el usuario en la base de datos
+    user = db.query(User).filter(User.email == user_email).first()
+    if user is None:
+        raise credentials_exception
+    
+    return user
